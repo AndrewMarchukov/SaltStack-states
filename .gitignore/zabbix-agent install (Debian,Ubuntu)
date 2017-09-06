@@ -1,0 +1,63 @@
+{% if grains['os'] == 'Debian' %}
+
+{% set os = 'debian' %}
+
+{% endif %}
+
+
+
+{% if grains['os'] == 'Ubuntu' %}
+
+{% set os = 'ubuntu' %}
+
+{% endif %}
+
+
+
+manage_repo:
+
+ file:
+
+  - managed
+
+  - name: /tmp/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+
+  - source: https://repo.zabbix.com/zabbix/3.0/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+
+  - skip_verify : True
+
+
+
+install_package:
+
+ cmd.run:
+
+  - name: dpkg -i /tmp/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+
+  - require:
+
+   - file: /tmp/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+
+
+
+zabbix_agent:
+
+ pkg.latest:
+
+  - refresh: True
+
+  - name: zabbix-agent
+
+
+
+zabbix-agent:
+
+ service.running:
+
+  - name: zabbix-agent
+
+  - restart: True
+
+  - watch:
+
+   - pkg: zabbix-agent
