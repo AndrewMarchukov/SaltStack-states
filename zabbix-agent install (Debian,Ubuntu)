@@ -1,63 +1,29 @@
 {% if grains['os'] == 'Debian' %}
-
 {% set os = 'debian' %}
-
 {% endif %}
-
-
 
 {% if grains['os'] == 'Ubuntu' %}
-
 {% set os = 'ubuntu' %}
-
 {% endif %}
 
-
-
-manage_repo:
-
- file:
-
-  - managed
-
-  - name: /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
-
-  - source: https://repo.zabbix.com/zabbix/3.4/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
-
-  - skip_verify : True
-
-
-
-install_package:
-
- cmd.run:
-
-  - name: dpkg -i /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
-
-  - require:
-
-   - file: /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
-
-
+install_zabbix:
+  pkg.installed:
+    - sources:
+      - zabbix-release: https://repo.zabbix.com/zabbix/3.4/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
 zabbix_agent:
+  pkg.latest:
+    - refresh: True
+    - name: zabbix-agent
 
- pkg.latest:
-
-  - refresh: True
-
-  - name: zabbix-agent
-
+zabbix_sender:
+  pkg.latest:
+    - name: zabbix-sender
 
 
 zabbix-agent:
-
- service.running:
-
-  - name: zabbix-agent
-
-  - restart: True
-
-  - watch:
-
-   - pkg: zabbix-agent
+  service.running:
+    - name: zabbix-agent
+    - restart: True
+    - watch:
+      - pkg: zabbix-agent
