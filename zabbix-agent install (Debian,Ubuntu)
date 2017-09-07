@@ -22,7 +22,7 @@ manage_repo:
 
   - name: /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
-  - source: https://repo.zabbix.com/zabbix/3.0/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
+  - source: https://repo.zabbix.com/zabbix/3.4/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
   - skip_verify : True
 
