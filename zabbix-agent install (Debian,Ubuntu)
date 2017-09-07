@@ -20,9 +20,9 @@ manage_repo:
 
   - managed
 
-  - name: /tmp/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+  - name: /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
-  - source: https://repo.zabbix.com/zabbix/3.0/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+  - source: https://repo.zabbix.com/zabbix/3.0/{{ os }}/pool/main/z/zabbix-release/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
   - skip_verify : True
 
@@ -32,11 +32,11 @@ install_package:
 
  cmd.run:
 
-  - name: dpkg -i /tmp/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+  - name: dpkg -i /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
   - require:
 
-   - file: /tmp/zabbix-release_3.0-1+{{ grains['oscodename'] }}_all.deb
+   - file: /tmp/zabbix-release_3.4-1+{{ grains['oscodename'] }}_all.deb
 
 
 
